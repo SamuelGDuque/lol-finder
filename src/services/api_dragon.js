@@ -30,4 +30,27 @@ export const loadChampions = async(url, setChampions,setLoading,qtd = 3) => {
   }
 }
 
+export const loadChampion = async(champion,setChampions,setLoading) => { 
+  try {
+    setLoading(true);
+    const url = `/11.1.1/data/pt_BR/champion.json`
+    const response = await apidragon.get(url)
+    const list = response.data.data 
+    const array_champions = []
+
+    Object.keys(list).forEach(function(item){
+      let champion = {
+        'id' : item,
+        'info' : list[item]
+      }
+      array_champions.push(champion)
+    });
+    var array_filter = array_champions.filter(x => x.id.toLowerCase().includes(champion.toLowerCase()));
+    setChampions(array_filter )
+  }
+  finally {
+    setLoading(false);
+  }
+}
+
 export default apidragon;
